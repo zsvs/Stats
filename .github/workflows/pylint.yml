@@ -5,6 +5,7 @@ on:
     path:
       - "**.py"
       - ".github/workflows/pylint.yml"
+
 jobs:
   build:
     runs-on: ubuntu-latest
