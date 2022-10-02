@@ -45,6 +45,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/download-artifact@v3
+        id: download
         with:
           name: stats.exe
 
@@ -52,8 +53,20 @@ jobs:
         run: ls -R
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        id: create-new-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: latest
-          files: |
-            stats.exe
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: $ {{ steps.create-new-release.outputs.upload_url }}
+          asset_path: ${{ steps.download.outputs.download-path }}
+          asset_name: stats-r${{ github.run_number }}.zip
+          asset_content_type: application/zip
