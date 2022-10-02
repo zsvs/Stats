@@ -97,7 +97,7 @@ def find_min_max_count_of_msg(list_users_dicts: list):
     """
     Find min/max and print result
     Takes list of dicts as positional argument.
-    Return winner object as a dict.
+    Return `winner` object as a dict.
     dict keys: ID, Name, Value
     """
     print("Total counts of different entries:", len(list_users_dicts))
@@ -127,6 +127,14 @@ def find_min_max_count_of_msg(list_users_dicts: list):
     return {max_val["ID"]: [max_val["Name"], max_val["Value"]]}
 
 def write_csv(filepath: str, list_dict: list):
+    """
+    This function creates new csv file from each element of list
+    (write them to file that provided in <filepath>).
+    Be aware, if files already exist, this func rewrite it
+    Takes two positional arguments: <filepath> and <list_dict>.
+    <filepath> for WIN must be formatted with <\\>(double slashes)
+    <list_dict> must be a list of dicts
+    """
     with open(filepath, 'w', newline='', encoding="utf-8") as csvfile:
         fieldnames = ["ID", "Name", "Username", "MSG", "From_datetime", "To_datetime"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -187,5 +195,3 @@ def main():
     return 0
 
 main()
-
-
