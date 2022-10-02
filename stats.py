@@ -7,6 +7,7 @@ parser.add_argument("--source-file", "-s", required=True, help="Path to CSV file
 parser.add_argument("--result-file", "-r", required=True, help="Path to CSV file with end time values", type=str)
 parser.add_argument("--new-source-file", "-sn", required=True, help="Path to new CSV file with start time values", type=str)
 parser.add_argument("--new-result-file", "-rn", required=True, help="Path to new CSV file with end time values", type=str)
+parser.add_argument("--out-file", "-o", required=False, help="Enable verbose. Print all difference in entries", type=bool)
 parser.add_argument("--verbose", "-v", required=False, help="Enable verbose. Print all difference in entries", type=bool)
 args = parser.parse_args()
 
@@ -104,18 +105,20 @@ def find_min_max_count_of_msg(list_users_dicts: list):
     return {max_val["ID"]: [max_val["Name"], max_val["Value"]]}
 
 
+def main():
+    # src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
+    # res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv"
+    # new_src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv"
+    # new_res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
 
-src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
-res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv"
-new_src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv"
-new_res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
-list_users_dict = PrepareFile(args.source_file, args.result_file) #PrepareFile(src_file, res_file)
-list_users_dict_new = PrepareFile(args.new_source_file, args.new_result_file) #PrepareFile(new_src_file, new_res_file)
-result = create_result(list_users_dict_new, list_users_dict, verbose = args.verbose)
-find_min_max_count_of_msg(result)
-os.system("pause")
+    list_users_dict = PrepareFile(args.source_file, args.result_file) # PrepareFile(src_file, res_file)
+    list_users_dict_new = PrepareFile(args.new_source_file, args.new_result_file) # PrepareFile(new_src_file, new_res_file)
+    result = create_result(list_users_dict_new, list_users_dict, verbose = args.verbose)
+    find_min_max_count_of_msg(result)
+    os.system("pause")
+    return 0
 
-
+main()
 # C:\Users\stepa\Documents\Repositories\Python\Stats\stats.py
 # -s "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv" `
 # -r "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv" `
