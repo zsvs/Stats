@@ -71,11 +71,14 @@ def create_result(newer_list: list, older_list: list, **kwargs):
                                     "Old:|", "ID:",old_item["ID"],
                                     "Name:",old_item["Name"], old_item["Username"],
                                     " Time: ",old_item["Last message"],
-                                    " MSG delta: ", calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())))
+                                    " MSG delta: ",
+                                        calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())))
+
                         result_list.append({"ID": item["ID"],
                                             "Name": item["Name"],
                                             "Username": item["Username"],
-                                            "MSG": calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())),
+                                            "MSG":
+                                                calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())),
                                             "From_datetime": old_item["Last message"],
                                             "To_datetime": item["Last message"]})
 
@@ -151,12 +154,34 @@ def main():
     #!
 
     parser = argparse.ArgumentParser(description="Calculate winner. All path for window must be like \"C:\\Foo\\Bar\\text.txt\"")
-    parser.add_argument("--source-file", "-s", required=True, help="Path to CSV file with start time values", type=str)
-    parser.add_argument("--result-file", "-r", required=True, help="Path to CSV file with end time values", type=str)
-    parser.add_argument("--new-source-file", "-sn", required=True, help="Path to new CSV file with start time values", type=str)
-    parser.add_argument("--new-result-file", "-rn", required=True, help="Path to new CSV file with end time values", type=str)
-    parser.add_argument("--file", "-f", required=True, help="Save result to csv file. You need to provide path to file", type=str)
-    parser.add_argument("--verbose", "-v", required=False, help="Enable verbose. Print all difference in entries", type=bool)
+    parser.add_argument("--source-file",
+                        "-s",
+                        required=True,
+                        help="Path to CSV file with start time values",
+                        type=str)
+    parser.add_argument("--result-file",
+                        "-r",
+                        required=True,
+                        help="Path to CSV file with end time values",
+                        type=str)
+    parser.add_argument("--new-source-file",
+                        "-sn", required=True,
+                        help="Path to new CSV file with start time values",
+                        type=str)
+    parser.add_argument("--new-result-file",
+                        "-rn", required=True,
+                        help="Path to new CSV file with end time values",
+                        type=str)
+    parser.add_argument("--file",
+                        "-f",
+                        required=True,
+                        help="Save result to csv file. You need to provide path to file",
+                        type=str)
+    parser.add_argument("--verbose",
+                        "-v",
+                        required=False,
+                        help="Enable verbose. Print all difference in entries",
+                        type=bool)
     args = parser.parse_args()
 
     list_users_dict = prepare_file(args.source_file, args.result_file)
