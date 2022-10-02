@@ -1,7 +1,7 @@
 name: Pylint
 
 on: [push]
-
+  path: ["**.py", ".github/workflows/pylint.yml"]
 jobs:
   build:
     runs-on: ubuntu-latest
