@@ -57,7 +57,7 @@ def create_result(newer_list: list, older_list: list, **kwargs):
     admins_list = ["qwerty_nana", "lebovsk"]
     for item in newer_list:
         for old_item in  older_list:
-            if(item["ID"] != old_item["ID"]) or (item["Username"] in admins_list):
+            if((item["ID"] != old_item["ID"]) or (item["Username"].strip() in admins_list)):
                 continue
             else:
                 try:
@@ -71,6 +71,7 @@ def create_result(newer_list: list, older_list: list, **kwargs):
                         pass
                     else:
                         print(item["ID"]," - have corrupted fields")
+
     return result_list
 
 def find_min_max_count_of_msg(list_users_dicts: list):
@@ -128,7 +129,7 @@ def main():
 
     list_users_dict = PrepareFile(args.source_file, args.result_file)
     list_users_dict_new = PrepareFile(args.new_source_file, args.new_result_file)
-    result = create_result(list_users_dict_new, list_users_dict, args.verbose)
+    result = create_result(list_users_dict_new, list_users_dict, verbose=args.verbose)
     find_min_max_count_of_msg(result)
     write_csv(args.file, result)
 
@@ -144,5 +145,5 @@ main()
 # -r "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv" `
 # -sn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv" `
 # -rn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv" `
-# -o "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\result.csv" `
+# -f "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\result.csv" `
 # -v True
