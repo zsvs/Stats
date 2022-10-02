@@ -61,7 +61,7 @@ def create_result(newer_list: list, older_list: list, **kwargs):
     admins_list = ["qwerty_nana", "lebovsk"]
     for item in newer_list:
         for old_item in  older_list:
-            if((item["ID"] == old_item["ID"]) and (item["Username"].strip() not in admins_list)):
+            if(item["ID"] == old_item["ID"] and item["Username"].strip() not in admins_list):
                 try:
                     if(calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())) != 0):
                         if(kwargs.get("verbose")):
@@ -84,7 +84,7 @@ def create_result(newer_list: list, older_list: list, **kwargs):
 
                         result_list.sort(key=sort_func) # sorting by "MSG" field
                 except ValueError:
-                    if(item["ID"] == "ID"):
+                    if item["ID"] == "ID":
                         pass
                     else:
                         print(item["ID"]," - have corrupted fields")
@@ -102,14 +102,14 @@ def find_min_max_count_of_msg(list_users_dicts: list):
     min_val = {"Name": None, "Value": 0, "ID": None}
     max_val = {"Name": None, "Value": 0, "ID": None}
     for j in range(1, len(list_users_dicts)):
-        if (int(list_users_dicts[j]["MSG"]) < min_val["Value"]):
+        if int(list_users_dicts[j]["MSG"]) < min_val["Value"]:
             min_val["Value"] = int(list_users_dicts[j]["MSG"])
             min_val["Name"] = list_users_dicts[j]["Name"].strip()
             min_val["ID"] = list_users_dicts[j]["ID"].strip()
             min_val["Start_datetime"] = list_users_dicts[j]["From_datetime"].strip()
             min_val["Final_datetime"] = list_users_dicts[j]["To_datetime"].strip()
 
-        if (int(list_users_dicts[j]["MSG"]) > max_val["Value"]):
+        if int(list_users_dicts[j]["MSG"]) > max_val["Value"]:
             max_val["Value"] = int(list_users_dicts[j]["MSG"])
             max_val["Name"] = list_users_dicts[j]["Name"].strip()
             max_val["ID"] = list_users_dicts[j]["ID"].strip()
@@ -140,18 +140,6 @@ def main():
     """
     Run main program
     """
-    #! DEBUG
-    # src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
-    # res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv"
-    # new_src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv"
-    # new_res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
-    # file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\result.csv"
-    # list_users_dict = PrepareFile(src_file, res_file)
-    # list_users_dict_new = PrepareFile(new_src_file, new_res_file)
-    # result = create_result(list_users_dict_new, list_users_dict, verbose = False)
-    # find_min_max_count_of_msg(result)
-    # write_csv(file, result)
-    #!
 
     parser = argparse.ArgumentParser(description="Calculate winner. All path for window must be like \"C:\\Foo\\Bar\\text.txt\"")
     parser.add_argument("--source-file",
@@ -165,11 +153,13 @@ def main():
                         help="Path to CSV file with end time values",
                         type=str)
     parser.add_argument("--new-source-file",
-                        "-sn", required=True,
+                        "-sn",
+                        required=True,
                         help="Path to new CSV file with start time values",
                         type=str)
     parser.add_argument("--new-result-file",
-                        "-rn", required=True,
+                        "-rn",
+                        required=True,
                         help="Path to new CSV file with end time values",
                         type=str)
     parser.add_argument("--file",
@@ -196,11 +186,4 @@ def main():
 
 main()
 
-# Example Usage:
-# C:\Users\stepa\Documents\Repositories\Python\Stats\stats.py `
-# -s "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv" `
-# -r "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv" `
-# -sn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv" `
-# -rn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv" `
-# -f "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\result.csv" `
-# -v True
+
