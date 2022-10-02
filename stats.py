@@ -152,8 +152,7 @@ def main():
     """
 
     parser = argparse.ArgumentParser(
-                        description =
-                            "Calculate winner. All path for window must be like \"C:\\Foo\\Bar\\text.txt\"")
+                        description = "Calculate winner. All path for window must be like \"C:\\Bar\\*.txt\"")
     parser.add_argument("--source-file",
                         "-s",
                         required=True,
