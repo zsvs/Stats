@@ -54,7 +54,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: ${{ github.ref_type == tag && contain(github.ref, 'refs/tags/v') }}
+        if: ${{ github.ref_type == 'tag' && contain(github.ref, 'refs/tags/v') }}
         with:
           tag_name: $GITHUB_REF_NAME
           name: Release $GITHUB_REF_NAME
