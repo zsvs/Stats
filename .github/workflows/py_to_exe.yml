@@ -46,6 +46,7 @@ jobs:
           path: dist\stats.exe
 
   download:
+    needs: [build]
     runs-on: windows-latest
     steps:
       - uses: actions/download-artifact@v3
