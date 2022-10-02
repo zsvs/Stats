@@ -1,4 +1,4 @@
-﻿name: Pylint
+﻿name: Auto-py-to-exe
 
 on:
   # workflow_run:
@@ -33,11 +33,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install auto-py-to-exe
+          python -m pip install auto-py-to-exe --no-input
 
       - name: Build .exe file
         run: |
-          python -m auto-py-to-exe -c auto-py-to-exe-confs/conf.json -o .
+          python -m auto-py-to-exe -c auto-py-to-exe-confs\conf.json -o .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
