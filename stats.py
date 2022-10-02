@@ -106,26 +106,31 @@ def write_csv(filepath: str, list_dict: list):
             writer.writerow({"ID": item["ID"], "Name": item["Name"], "Username": item["Username"], "MSG": item["MSG"], "From_datetime": item["From_datetime"], "To_datetime": item["To_datetime"]})
 
 def main():
-    # src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
-    # res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv"
-    # new_src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv"
-    # new_res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
-    # out_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\result.csv"
+    src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
+    res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv"
+    new_src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv"
+    new_res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
+    out_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\result.csv"
 
-    parser = argparse.ArgumentParser(description="Calculate winner. All path for window must be like \"C:\\Foo\\Bar\\text.txt\"")
-    parser.add_argument("--source-file", "-s", required=True, help="Path to CSV file with start time values", type=str)
-    parser.add_argument("--result-file", "-r", required=True, help="Path to CSV file with end time values", type=str)
-    parser.add_argument("--new-source-file", "-sn", required=True, help="Path to new CSV file with start time values", type=str)
-    parser.add_argument("--new-result-file", "-rn", required=True, help="Path to new CSV file with end time values", type=str)
-    parser.add_argument("--out-file", "-o", required=True, help="Save result to csv file. You need to provide path to file", type=str)
-    parser.add_argument("--verbose", "-v", required=False, help="Enable verbose. Print all difference in entries", type=bool)
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(description="Calculate winner. All path for window must be like \"C:\\Foo\\Bar\\text.txt\"")
+    # parser.add_argument("--source-file", "-s", required=True, help="Path to CSV file with start time values", type=str)
+    # parser.add_argument("--result-file", "-r", required=True, help="Path to CSV file with end time values", type=str)
+    # parser.add_argument("--new-source-file", "-sn", required=True, help="Path to new CSV file with start time values", type=str)
+    # parser.add_argument("--new-result-file", "-rn", required=True, help="Path to new CSV file with end time values", type=str)
+    # parser.add_argument("--out-file", "-o", required=True, help="Save result to csv file. You need to provide path to file", type=str)
+    # parser.add_argument("--verbose", "-v", required=False, help="Enable verbose. Print all difference in entries", type=bool)
+    # args = parser.parse_args()
 
-    list_users_dict = PrepareFile(args.source_file, args.result_file) #PrepareFile(src_file, res_file) #
-    list_users_dict_new = PrepareFile(args.new_source_file, args.new_result_file) #PrepareFile(new_src_file, new_res_file) #
-    result = create_result(list_users_dict_new, list_users_dict, args.verbose) #verbose = False) #
+    # list_users_dict = PrepareFile(args.source_file, args.result_file) #PrepareFile(src_file, res_file) #
+    # list_users_dict_new = PrepareFile(args.new_source_file, args.new_result_file) #PrepareFile(new_src_file, new_res_file) #
+    # result = create_result(list_users_dict_new, list_users_dict, args.verbose) #verbose = False) #
+    # find_min_max_count_of_msg(result)
+    # write_csv(args.out_file, result) #(out_file, result)#
+    list_users_dict = PrepareFile(src_file, res_file)
+    list_users_dict_new = PrepareFile(new_src_file, new_res_file) #
+    result = create_result(list_users_dict_new, list_users_dict, verbose = False)
     find_min_max_count_of_msg(result)
-    write_csv(args.out_file, result) #(out_file, result)#
+    write_csv(out_file, result)
     os.system("pause")
     return 0
 
