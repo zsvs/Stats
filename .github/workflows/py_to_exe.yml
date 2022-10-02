@@ -1,17 +1,17 @@
 ﻿name: Auto-py-to-exe
 
 on:
-  # workflow_run:
-  #     workflows:
-  #       - 'Pylint'
-  #     types:
-  #       - completed
-  #     branches:
-  #       - main
-  push:
-    path:
-      - "**.py"
-      - ".github/workflows/py_to_exe.yml"
+  workflow_run:
+      workflows:
+        - 'Pylint'
+      types:
+        - completed
+      branches:
+        - main
+  # push:
+  #   path:
+  #     - "**.py"
+  #     - ".github/workflows/py_to_exe.yml"
 
 jobs:
   build:
@@ -43,4 +43,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: stats.exe
+          path: dist\stats.exe
+
+  download:
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifact.exe
           path: dist\stats.exe
