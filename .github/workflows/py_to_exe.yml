@@ -1,13 +1,10 @@
 ﻿name: Auto-py-to-exe
 
 on:
-  workflow_run:
-      workflows:
-        - 'Pylint'
-      types:
-        - completed
-      branches:
-        - main
+ push:
+    tags:
+      - 'v*.*.*'
+
 jobs:
   build:
     strategy:
@@ -42,7 +39,7 @@ jobs:
 
   publish:
     needs: [build]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
         id: download
@@ -52,9 +49,13 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
+      - name: Set tag output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.GITHUB_REF_NAME }}
-          name: Release ${{ env.GITHUB_REF_NAME }}
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: Release ${{ steps.vars.outputs.tag }}
           files: ${{ steps.download.outputs.download-path }}\stats.exe
