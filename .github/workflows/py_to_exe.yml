@@ -8,10 +8,6 @@ on:
         - completed
       branches:
         - main
-  # push:
-  #   path:
-  #     - "**.py"
-  #     - ".github/workflows/py_to_exe.yml"
 
 jobs:
   build:
