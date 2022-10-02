@@ -51,11 +51,14 @@ def calc_delta(new_val: int, old_val: int):
     """
     return new_val - old_val
 
+def sort_func(dct):
+    return dct["MSG"]
+
 def create_result(newer_list: list, older_list: list, **kwargs):
     """
     Takes two positional arguments, <newer_list> and <older_list> and one boolean key-word argument for verbosity
     Performs comparison between them, and if elements are the same add them to the new dict
-    Return the result as a list of the dictionary.
+    Return the result as a sorted by MSG field list of the dictionary.
     Keys in dict: ID, Name, Username, MSG(delta of messages)
     """
     result_list = []
@@ -70,7 +73,7 @@ def create_result(newer_list: list, older_list: list, **kwargs):
                         if(kwargs.get("verbose")):
                             print("New:|","ID:", item["ID"],"Name:",item["Name"], item["Username"], "Time:",item["Last message"],"Old:|", "ID:",old_item["ID"], "Name:",old_item["Name"], old_item["Username"], " Time: ",old_item["Last message"], " MSG delta: ", calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())))
                         result_list.append({"ID": item["ID"], "Name": item["Name"], "Username": item["Username"], "MSG": calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())), "From_datetime": old_item["Last message"],"To_datetime": item["Last message"]})
-
+                        result_list.sort(key=sort_func) # sorting by "MSG" field
                 except ValueError:
                     if(item["ID"] == "ID"):
                         pass
@@ -99,6 +102,7 @@ def find_min_max_count_of_msg(list_users_dicts: list):
 
     print("Max: ", max_val["Value"], "\nMin: ", min_val["Value"], "\nWinner: ", max_val["Name"], "\nWinner ID: ", max_val["ID"], "\nStart datetime: ", max_val["Start_datetime"], "\nFinal datetime:", max_val["Final_datetime"])
     return {max_val["ID"]: [max_val["Name"], max_val["Value"]]}
+
 
 
 src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
