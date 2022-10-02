@@ -1,8 +1,11 @@
-﻿import csv
+﻿"""
+Stats processing for telegram
+"""
+import csv
 import argparse
 import os
 
-def PrepareFile(source_file_path: str, result_file_path: str):
+def prepare_file(source_file_path: str, result_file_path: str):
     """
     Function create a complete CSV file with correct headers by getting <result_file path>
     and adding headers and info from <source_file_path>
@@ -12,26 +15,22 @@ def PrepareFile(source_file_path: str, result_file_path: str):
     ######################################
     stats_headers = "ID,Name,Username,MSG,Last message,XP,REP"
 
-#! ALL source_file_path rename to result_file_path
-
-    #"E:\\Downloads\\stats_complete.csv"
-    with open(result_file_path, "w", encoding='utf-8') as complete_file: #former source_file_path
+    with open(result_file_path, "w", encoding='utf-8') as complete_file:
         complete_file.write(stats_headers)
 
 
     ######################################
     ###### Read csv with stats
     ######################################
-#C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\
-    #"E:\\Downloads\\Cryptonic Чат - users (exported from combot.org).csv"
+
     with open(source_file_path, "r", encoding="utf-8", newline='') as stats_file:
         stats = csv.reader(stats_file, delimiter=',')
-        with open(result_file_path, "a", encoding="utf-8") as complete_file: #former source_file_path
+        with open(result_file_path, "a", encoding="utf-8") as complete_file:
             for row in stats:
                 complete_file.write("\n" + ", ".join(row))
 
     list_users = []
-    with open(result_file_path, "r", encoding="utf-8") as complete_file: #former source_file_path
+    with open(result_file_path, "r", encoding="utf-8") as complete_file:
         stats = csv.DictReader(complete_file, delimiter=",", fieldnames = stats_headers.split(","))
         for item in stats:
             list_users.append(item)
@@ -44,6 +43,9 @@ def calc_delta(new_val: int, old_val: int):
     return new_val - old_val
 
 def sort_func(dct):
+    """
+    Special function for list.sort(key=func)
+    """
     return dct["MSG"]
 
 def create_result(newer_list: list, older_list: list, **kwargs):
@@ -57,14 +59,24 @@ def create_result(newer_list: list, older_list: list, **kwargs):
     admins_list = ["qwerty_nana", "lebovsk"]
     for item in newer_list:
         for old_item in  older_list:
-            if((item["ID"] != old_item["ID"]) or (item["Username"].strip() in admins_list)):
-                continue
-            else:
+            if((item["ID"] == old_item["ID"]) and (item["Username"].strip() not in admins_list)):
                 try:
                     if(calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())) != 0):
                         if(kwargs.get("verbose")):
-                            print("New:|","ID:", item["ID"],"Name:",item["Name"], item["Username"], "Time:",item["Last message"],"Old:|", "ID:",old_item["ID"], "Name:",old_item["Name"], old_item["Username"], " Time: ",old_item["Last message"], " MSG delta: ", calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())))
-                        result_list.append({"ID": item["ID"], "Name": item["Name"], "Username": item["Username"], "MSG": calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())), "From_datetime": old_item["Last message"],"To_datetime": item["Last message"]})
+                            print("New:|","ID:", item["ID"],
+                                    "Name:",item["Name"], item["Username"],
+                                    "Time:",item["Last message"],
+                                    "Old:|", "ID:",old_item["ID"],
+                                    "Name:",old_item["Name"], old_item["Username"],
+                                    " Time: ",old_item["Last message"],
+                                    " MSG delta: ", calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())))
+                        result_list.append({"ID": item["ID"],
+                                            "Name": item["Name"],
+                                            "Username": item["Username"],
+                                            "MSG": calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())),
+                                            "From_datetime": old_item["Last message"],
+                                            "To_datetime": item["Last message"]})
+
                         result_list.sort(key=sort_func) # sorting by "MSG" field
                 except ValueError:
                     if(item["ID"] == "ID"):
@@ -75,6 +87,12 @@ def create_result(newer_list: list, older_list: list, **kwargs):
     return result_list
 
 def find_min_max_count_of_msg(list_users_dicts: list):
+    """
+    Find min/max and print result
+    Takes list of dicts as positional argument.
+    Return winner object as a dict.
+    dict keys: ID, Name, Value
+    """
     print("Total counts of different entries:", len(list_users_dicts))
     min_val = {"Name": None, "Value": 0, "ID": None}
     max_val = {"Name": None, "Value": 0, "ID": None}
@@ -93,7 +111,12 @@ def find_min_max_count_of_msg(list_users_dicts: list):
             max_val["Start_datetime"] = list_users_dicts[j]["From_datetime"].strip()
             max_val["Final_datetime"] = list_users_dicts[j]["To_datetime"].strip()
 
-    print("Max: ", max_val["Value"], "\nMin: ", min_val["Value"], "\nWinner: ", max_val["Name"], "\nWinner ID: ", max_val["ID"], "\nStart datetime: ", max_val["Start_datetime"], "\nFinal datetime:", max_val["Final_datetime"])
+    print("Max: ", max_val["Value"],
+        "\nMin: ", min_val["Value"],
+        "\nWinner: ", max_val["Name"],
+        "\nWinner ID: ", max_val["ID"],
+        "\nStart datetime: ", max_val["Start_datetime"],
+        "\nFinal datetime:", max_val["Final_datetime"])
     return {max_val["ID"]: [max_val["Name"], max_val["Value"]]}
 
 def write_csv(filepath: str, list_dict: list):
@@ -102,9 +125,14 @@ def write_csv(filepath: str, list_dict: list):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         for item in list_dict[::-1]:
-            writer.writerow({"ID": item["ID"], "Name": item["Name"], "Username": item["Username"], "MSG": item["MSG"], "From_datetime": item["From_datetime"], "To_datetime": item["To_datetime"]})
+            writer.writerow({"ID": item["ID"], "Name": item["Name"],
+                            "Username": item["Username"], "MSG": item["MSG"],
+                            "From_datetime": item["From_datetime"], "To_datetime": item["To_datetime"]})
 
 def main():
+    """
+    Run main program
+    """
     #! DEBUG
     # src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
     # res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv"
@@ -127,8 +155,8 @@ def main():
     parser.add_argument("--verbose", "-v", required=False, help="Enable verbose. Print all difference in entries", type=bool)
     args = parser.parse_args()
 
-    list_users_dict = PrepareFile(args.source_file, args.result_file)
-    list_users_dict_new = PrepareFile(args.new_source_file, args.new_result_file)
+    list_users_dict = prepare_file(args.source_file, args.result_file)
+    list_users_dict_new = prepare_file(args.new_source_file, args.new_result_file)
     result = create_result(list_users_dict_new, list_users_dict, verbose=args.verbose)
     find_min_max_count_of_msg(result)
     write_csv(args.file, result)
