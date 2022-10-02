@@ -7,11 +7,11 @@ This program takes 2 `CSV` files and creates them in the right way(with headers)
 ## Example Usage:
 ```powershell
     C:\<Path>\<To>\stats.py `
-    -s "C:\\<Path>\\<To>\\<Older_Source_CSV_Files>.csv" `
-    -r "C:\\<Path>\\<To>\\<Older_Result_CSV_Files>.csv" `
-    -sn "C:\\<Path>\\<To>\\<Newer_Source_CSV_Files>.csv" `
-    -rn "C:\\<Path>\\<To>\\<Older_Result_CSV_Files>.csv" `
-    -f "C:\\<Path>\\<To>\\<Result_Files>.csv" `
+    -s "C:\<Path>\<To>\<Older_Source_CSV_Files>.csv" `
+    -r "C:\<Path>\<To>\<Older_Result_CSV_Files>.csv" `
+    -sn "C:\<Path>\<To>\<Newer_Source_CSV_Files>.csv" `
+    -rn "C:\<Path>\<To>\<Older_Result_CSV_Files>.csv" `
+    -f "C:\<Path>\<To>\<Result_Files>.csv" `
     -v True
 ```
 

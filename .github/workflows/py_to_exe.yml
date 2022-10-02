@@ -37,10 +37,10 @@ jobs:
 
       - name: Build .exe file
         run: |
-          python -m auto-py-to-exe -c auto-py-to-exe-confs\conf.json -o .
+          pyinstaller --noconfirm --onefile --console  "stats.py"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: stats.exe
-          path: stats.exe
+          path: dist\stats.exe
