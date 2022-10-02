@@ -50,8 +50,10 @@ def sort_func(dct):
 
 def create_result(newer_list: list, older_list: list, **kwargs):
     """
-    Takes two positional arguments, <newer_list> and <older_list> and one boolean key-word argument for verbosity
-    Performs comparison between them, and if elements are the same add them to the new dict
+    Takes two positional arguments,
+    <newer_list> and <older_list> and one boolean key-word argument for verbosity
+    Performs comparison between them,
+    and if elements are the same add them to the new dict
     Return the result as a sorted by MSG field list of the dictionary.
     Keys in dict: ID, Name, Username, MSG(delta of messages), From_datetime, To_datetime
     """
@@ -126,8 +128,10 @@ def write_csv(filepath: str, list_dict: list):
         writer.writeheader()
         for item in list_dict[::-1]:
             writer.writerow({"ID": item["ID"], "Name": item["Name"],
-                            "Username": item["Username"], "MSG": item["MSG"],
-                            "From_datetime": item["From_datetime"], "To_datetime": item["To_datetime"]})
+                            "Username": item["Username"],
+                            "MSG": item["MSG"],
+                            "From_datetime": item["From_datetime"],
+                            "To_datetime": item["To_datetime"]})
 
 def main():
     """
