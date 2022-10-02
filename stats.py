@@ -4,12 +4,12 @@ import os
 
 parser = argparse.ArgumentParser(description="Calculate winner. All path for window must be like \"C:\\Foo\\Bar\\text.txt\"")
 parser.add_argument("--source-file", "-s", required=True, help="Path to CSV file with start time values", type=str)
-parser.add_argument("--result-file", "-e", required=True, help="Path to CSV file with end time values", type=str)
+parser.add_argument("--result-file", "-r", required=True, help="Path to CSV file with end time values", type=str)
 parser.add_argument("--new-source-file", "-sn", required=True, help="Path to new CSV file with start time values", type=str)
-parser.add_argument("--new-result-file", "-en", required=True, help="Path to new CSV file with end time values", type=str)
+parser.add_argument("--new-result-file", "-rn", required=True, help="Path to new CSV file with end time values", type=str)
 parser.add_argument("--verbose", "-v", required=False, help="Enable verbose. Print all difference in entries", type=bool)
 args = parser.parse_args()
-               #args.source-file       args.result-file
+
 def PrepareFile(source_file_path: str, result_file_path: str):
     """
     Function create a complete CSV file with correct headers by getting <result_file path>
@@ -101,8 +101,6 @@ def find_min_max_count_of_msg(list_users_dicts: list):
     return {max_val["ID"]: [max_val["Name"], max_val["Value"]]}
 
 
-
-
 src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
 res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv"
 new_src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv"
@@ -116,7 +114,7 @@ os.system("pause")
 
 # C:\Users\stepa\Documents\Repositories\Python\Stats\stats.py
 # -s "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv" `
-# -e "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv" `
+# -r "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv" `
 # -sn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv" `
-# -en "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
+# -rn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
 # -v True
