@@ -2,14 +2,7 @@
 import argparse
 import os
 
-parser = argparse.ArgumentParser(description="Calculate winner. All path for window must be like \"C:\\Foo\\Bar\\text.txt\"")
-parser.add_argument("--source-file", "-s", required=True, help="Path to CSV file with start time values", type=str)
-parser.add_argument("--result-file", "-r", required=True, help="Path to CSV file with end time values", type=str)
-parser.add_argument("--new-source-file", "-sn", required=True, help="Path to new CSV file with start time values", type=str)
-parser.add_argument("--new-result-file", "-rn", required=True, help="Path to new CSV file with end time values", type=str)
-parser.add_argument("--out-file", "-o", required=False, help="Enable verbose. Print all difference in entries", type=bool)
-parser.add_argument("--verbose", "-v", required=False, help="Enable verbose. Print all difference in entries", type=bool)
-args = parser.parse_args()
+
 
 def PrepareFile(source_file_path: str, result_file_path: str):
     """
@@ -60,7 +53,7 @@ def create_result(newer_list: list, older_list: list, **kwargs):
     Takes two positional arguments, <newer_list> and <older_list> and one boolean key-word argument for verbosity
     Performs comparison between them, and if elements are the same add them to the new dict
     Return the result as a sorted by MSG field list of the dictionary.
-    Keys in dict: ID, Name, Username, MSG(delta of messages)
+    Keys in dict: ID, Name, Username, MSG(delta of messages), From_datetime, To_datetime
     """
     result_list = []
     admins_list = ["qwerty_nana", "lebovsk"]
@@ -104,24 +97,45 @@ def find_min_max_count_of_msg(list_users_dicts: list):
     print("Max: ", max_val["Value"], "\nMin: ", min_val["Value"], "\nWinner: ", max_val["Name"], "\nWinner ID: ", max_val["ID"], "\nStart datetime: ", max_val["Start_datetime"], "\nFinal datetime:", max_val["Final_datetime"])
     return {max_val["ID"]: [max_val["Name"], max_val["Value"]]}
 
+def write_csv(filepath: str, list_dict: list):
+    with open(filepath, 'w', newline='', encoding="utf-8") as csvfile:
+        fieldnames = ["ID", "Name", "Username", "MSG", "From_datetime", "To_datetime"]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for item in list_dict:
+            writer.writerow({"ID": item["ID"], "Name": item["Name"], "Username": item["Username"], "MSG": item["MSG"], "From_datetime": item["From_datetime"], "To_datetime": item["To_datetime"]})
 
 def main():
     # src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv"
     # res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv"
     # new_src_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv"
     # new_res_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
+    # out_file = "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\result.csv"
 
-    list_users_dict = PrepareFile(args.source_file, args.result_file) # PrepareFile(src_file, res_file)
-    list_users_dict_new = PrepareFile(args.new_source_file, args.new_result_file) # PrepareFile(new_src_file, new_res_file)
-    result = create_result(list_users_dict_new, list_users_dict, verbose = args.verbose)
+    parser = argparse.ArgumentParser(description="Calculate winner. All path for window must be like \"C:\\Foo\\Bar\\text.txt\"")
+    parser.add_argument("--source-file", "-s", required=True, help="Path to CSV file with start time values", type=str)
+    parser.add_argument("--result-file", "-r", required=True, help="Path to CSV file with end time values", type=str)
+    parser.add_argument("--new-source-file", "-sn", required=True, help="Path to new CSV file with start time values", type=str)
+    parser.add_argument("--new-result-file", "-rn", required=True, help="Path to new CSV file with end time values", type=str)
+    parser.add_argument("--out-file", "-o", required=True, help="Save result to csv file. You need to provide path to file", type=str)
+    parser.add_argument("--verbose", "-v", required=False, help="Enable verbose. Print all difference in entries", type=bool)
+    args = parser.parse_args()
+
+    list_users_dict = PrepareFile(args.source_file, args.result_file) #PrepareFile(src_file, res_file) #
+    list_users_dict_new = PrepareFile(args.new_source_file, args.new_result_file) #PrepareFile(new_src_file, new_res_file) #
+    result = create_result(list_users_dict_new, list_users_dict, args.verbose) #verbose = False) #
     find_min_max_count_of_msg(result)
+    write_csv(args.out_file, result) #(out_file, result)#
     os.system("pause")
     return 0
 
 main()
-# C:\Users\stepa\Documents\Repositories\Python\Stats\stats.py
+
+# Example Usage:
+# C:\Users\stepa\Documents\Repositories\Python\Stats\stats.py `
 # -s "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org).csv" `
 # -r "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete.csv" `
 # -sn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\Cryptonic Чат - users (exported from combot.org)(1).csv" `
-# -rn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv"
+# -rn "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\stats_complete_new.csv" `
+# -o "C:\\Users\\stepa\\Documents\\Repositories\\Python\\Stats\\csv\\result.csv" `
 # -v True
