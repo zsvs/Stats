@@ -1,0 +1,46 @@
+﻿name: Pylint
+
+on:
+  # workflow_run:
+  #     workflows:
+  #       - 'Pylint'
+  #     types:
+  #       - completed
+  #     branches:
+  #       - main
+  push:
+    path:
+      - "**.py"
+      - ".github/workflows/py_to_exe.yml"
+
+jobs:
+  build:
+    strategy:
+     matrix:
+      python-version: ["3.9", "3.10"]
+    runs-on: windows-latest
+
+    steps:
+
+      - name: Git Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup python  #Build .exe file
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install auto-py-to-exe
+
+      - name: Build .exe file
+        run: |
+          python -m auto-py-to-exe -c auto-py-to-exe-confs/conf.json -o .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: stats.exe
+          path: stats.exe
