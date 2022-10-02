@@ -55,6 +55,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: $GITHUB_REF_NAME
-          name: Release $GITHUB_REF_NAME
+          tag_name: ${{ env.GITHUB_REF_NAME }}
+          name: Release ${{ env.GITHUB_REF_NAME }}
           files: ${{ steps.download.outputs.download-path }}\stats.exe
