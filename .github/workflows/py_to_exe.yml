@@ -68,5 +68,5 @@ jobs:
         with:
           upload_url: $ {{ steps.create-new-release.outputs.upload_url }}
           asset_path: ${{ steps.download.outputs.download-path }}\stats.exe
-          asset_name: stats-r${{ github.run_number }}.zip
+          asset_name: stats-r${{ github.run_number }}.exe
           asset_content_type: application/zip
