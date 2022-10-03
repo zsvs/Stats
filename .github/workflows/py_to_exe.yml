@@ -62,4 +62,4 @@ jobs:
         with:
           tag_name: ${{ steps.vars.outputs.tag }}
           name: Release ${{ steps.vars.outputs.tag }}
-          files: ${{ steps.download.outputs.download-path }}\stats.exe
+          files: ${{ steps.download.outputs.download-path }}/stats.exe
