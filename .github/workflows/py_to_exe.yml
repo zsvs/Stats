@@ -1,9 +1,13 @@
 ﻿name: Auto-py-to-exe
 
 on:
- push:
-    tags:
-      - 'v*.*.*'
+  workflow_run:
+      workflows:
+        - 'Pylint'
+      types:
+        - completed
+      branches:
+        - main
 
 jobs:
   build:
