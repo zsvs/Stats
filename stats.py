@@ -63,7 +63,7 @@ def create_result(newer_list: list, older_list: list, **kwargs):
         for old_item in  older_list:
             if(item["ID"] == old_item["ID"] and item["Username"].strip() not in admins_list):
                 try:
-                    if calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())) != 0:
+                    if calc_delta(int(item["MSG"].strip()), int(old_item["MSG"].strip())):
                         if kwargs.get("verbose"):
                             print("New:|","ID:", item["ID"],
                                     "Name:",item["Name"], item["Username"],
