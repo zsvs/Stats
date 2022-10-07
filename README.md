@@ -15,6 +15,7 @@ This program takes 2 `CSV` files and creates them in the right way(with headers)
     -v True
 ```
 
+
 ## Inputs
 
 * `--source-file` - Path to CSV file with start time values. For example, this must be the file from the begining of the week
