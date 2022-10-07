@@ -60,6 +60,7 @@ jobs:
           name: stats.exe
           path: dist\stats.exe
 
+
   publish:
     needs: [build]
     runs-on: ubuntu-latest
