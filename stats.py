@@ -118,7 +118,8 @@ def find_min_max_count_of_msg(list_users_dicts: list):
             max_val["Start_datetime"] = list_users_dicts[j]["From_datetime"].strip()
             max_val["Final_datetime"] = list_users_dicts[j]["To_datetime"].strip()
 
-    print("Max: ", max_val["Value"],
+    print("List of 5 winners: ", list_users_dicts[len(list_users_dicts):len(list_users_dicts)-5:-1],
+        "\nMax: ", max_val["Value"],
         "\nMin: ", min_val["Value"],
         "\nWinner: ", max_val["Name"],
         "\nWinner ID: ", max_val["ID"],
